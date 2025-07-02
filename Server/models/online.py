@@ -2,6 +2,7 @@ from Server.models.database import db
 
 class Online(db.Model):
     __tablename__ = 'online'
+    __table_args__ = {"extend_existing": True}
 
     user_id = db.Column(db.String(64), db.ForeignKey('users.user_id'), primary_key=True)
     public_key = db.Column(db.String(64), nullable=False)

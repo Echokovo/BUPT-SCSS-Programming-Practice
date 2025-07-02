@@ -2,6 +2,7 @@ from Server.models.database import db
 
 class User(db.Model):
     __tablename__ = 'users'
+    __table_args__ = {"extend_existing": True}
 
     user_id = db.Column(db.String(64), primary_key=True)
     password = db.Column(db.String(64), nullable=False)
