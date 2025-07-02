@@ -203,8 +203,8 @@ CLIENT_SERVER_INTERFACES = {
         },
         "Responses": {
             "200": "注册成功",
-            "400": "用户名不合法", 
-            "409": "用户已存在"
+            "400": "参数不合法",
+            "409": "用户名已存在"
         }
     },
     
@@ -215,115 +215,112 @@ CLIENT_SERVER_INTERFACES = {
             "data": {
                 "user_id": "string, 用户名",
                 "password": "string, 用户密码",
-                "public_key": "string, 用户公钥"
+                "public_key": "string, 用户公钥",
+                "ip": "string, 用户ip",
+                "port": "int, 用户监听的端口"
             }
         },
         "Responses": {
             "200": {
                 "status": "integer, 状态码",
-                "message": "string, Debug信息", 
+                "message": "string, Debug信息",
                 "data": {
                     "token": "string, 登陆token"
                 }
             },
+            "400": "参数不合法",
             "401": "密码错误",
-            "404": "用户不存在"
+            "404": "用户不存在",
+            "409": "用户已登陆"
         }
     },
     
     "获取通讯录": {
         "URL": "/contacts",
-        "Method": "GET",
-        "Headers": {
-            "Authorization": "Bearer {token}"
-        },
-        "Response": {
+        "Method": "GET(token)",
+        "Responses": {
             "200": {
                 "status": "integer, 状态码",
                 "message": "string, Debug信息",
-                "data": {
-                    "contacts": [
-                        {
-                            "user_id": "string, 用户名",
-                            "flag": "bool, 好友状态位"
-                        }
-                    ]
-                }
-            }
+                "data": [
+                    {
+                        "user_id": "string, 用户名",
+                        "flag": "bool, 好友为True 好友申请为 False"
+                    }
+                ]
+            },
+            "404": "用户不存在"
         }
     },
     
     "添加好友": {
         "URL": "/contacts",
-        "Method": "POST", 
-        "Headers": {
-            "Authorization": "Bearer {token}"
-        },
+        "Method": "POST(token)",
         "Request": {
             "data": {
-                "friend_id": "string, 朋友名"
+                "friend_id": "string, 好友名"
             }
         },
         "Responses": {
             "200": "添加成功",
+            "400": "参数不合法",
             "404": "用户不存在",
-            "409": "已提交好友"
+            "409": "好友已添加"
         }
     },
     
     "删除好友": {
         "URL": "/contacts",
-        "Method": "DELETE",
-        "Headers": {
-            "Authorization": "Bearer {token}"
-        },
+        "Method": "DELETE(token)",
         "Request": {
             "data": {
-                "friend_id": "string, 朋友名"
+                "friend_id": "string, 好友名"
             }
         },
         "Responses": {
             "200": "删除成功",
-            "404": "好友不存在"
+            "404": "用户不存在",
+            "409": "好友不存在"
         }
     },
     
     "判断是否在线": {
         "URL": "/online",
-        "Method": "POST",
-        "Headers": {
-            "Authorization": "Bearer {token}"
-        },
+        "Method": "POST(token)",
         "Request": {
             "data": {
-                "friend_id": "string, 朋友名"
+                "friend_id": "string, 好友名"
             }
         },
         "Responses": {
-            "200": "在线",
-            "400": "用户名不合法或非好友关系"
+            "199": "好友离线",
+            "200": "好友在线",
+            "400": "参数不合法",
+            "403": "非好友关系",
+            "404": "好友不存在"
         }
     },
     
     "获取公钥": {
         "URL": "/public_key",
-        "Method": "POST",
-        "Headers": {
-            "Authorization": "Bearer {token}"
-        },
+        "Method": "POST(token)",
         "Request": {
             "data": {
-                "friend_id": "string, 朋友名"
+                "friend_id": "string, 好友名"
             }
         },
         "Responses": {
+            "199": "好友离线",
             "200": {
                 "status": "int, 状态码",
                 "message": "string, Debug信息",
                 "data": {
-                    "public_key": "string, 朋友公钥"
+                    "public_key": "string, 好友公钥"
                 }
-            }
+            },
+            "400": "参数不合法",
+            "403": "非好友关系",
+            "404": "好友不存在"
         }
     },
     
@@ -500,11 +497,13 @@ CLIENT_SERVER_INTERFACES = {
 # ================== 状态码说明 ==================
 
 STATUS_CODES = {
+    199: "好友离线",
     200: "成功",
-    400: "请求参数错误",
-    401: "未授权（需要登录或token无效）",
-    404: "资源不存在",
-    409: "冲突（如用户名已存在）",
+    400: "请求参数错误/参数不合法",
+    401: "未授权/密码错误/需要登录或token无效",
+    403: "非好友关系",
+    404: "资源不存在/用户不存在/好友不存在",
+    409: "冲突（如用户名已存在、好友已添加、好友不存在、用户已登陆）",
     500: "服务器内部错误"
 }
 
