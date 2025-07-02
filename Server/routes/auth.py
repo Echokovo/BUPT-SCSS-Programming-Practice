@@ -16,12 +16,12 @@ def init_auth(app: Flask):
             return {"error": str(e)}, 400
 
         result = register_service(
-            user_id=register_data.user_id,
-            password=register_data.password,
-            email=register_data.email
+            user_id=register_data.data.user_id,
+            password=register_data.data.password,
+            email=register_data.data.email
         )
-
-        return jsonify(result), result.get("status", 200)
+        result = jsonify(result)
+        return result, result.status_code
 
     @app.route("/login", methods=["POST"])
     def login():
@@ -32,11 +32,11 @@ def init_auth(app: Flask):
             return {"error": str(e)}, 400
 
         result = login_service(
-            user_id=login_data.user_id,
-            password=login_data.password,
-            public_key=login_data.public_key,
-            ip=login_data.ip,
-            port=login_data.port
+            user_id=login_data.data.user_id,
+            password=login_data.data.password,
+            public_key=login_data.data.public_key,
+            ip=login_data.data.ip,
+            port=login_data.data.port
         )
-
-        return jsonify(result), result.get("status", 200)
+        result = jsonify(result)
+        return result, result.status_code

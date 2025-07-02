@@ -16,8 +16,8 @@ def init_contacts(app: Flask):
         result = get_contacts_service(
             user_id=user_id
         )
-
-        return jsonify(result), result.get("status", 200)
+        result = jsonify(result)
+        return result, result.status_code
 
     @app.route("/contacts", methods=["POST"])
     @jwt_required()
@@ -31,10 +31,10 @@ def init_contacts(app: Flask):
 
         result = add_friend_service(
             user_id=user_id,
-            friend_id=add_friend_data.friend_id
+            friend_id=add_friend_data.data.friend_id
         )
-
-        return jsonify(result), result.get("status", 200)
+        result = jsonify(result)
+        return result, result.status_code
 
     @app.route("/contacts", methods=["DELETE"])
     @jwt_required()
@@ -48,7 +48,7 @@ def init_contacts(app: Flask):
 
         result = delete_friend_service(
             user_id=user_id,
-            friend_id=delete_friend_data.friend_id
+            friend_id=delete_friend_data.data.friend_id
         )
-
-        return jsonify(result), result.get("status", 200)
+        result = jsonify(result)
+        return result, result.status_code

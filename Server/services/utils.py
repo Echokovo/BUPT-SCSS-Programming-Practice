@@ -19,7 +19,7 @@ def online_service(user_id, friend_id):
     else:
         result['status'] = 404
         result['message'] = 'User does not exist'
-    return GetStateResponse(**result)
+    return GetStateResponse(**result).model_dump_json()
 
 def public_key_service(user_id, friend_id):
     result = dict()
@@ -43,4 +43,4 @@ def public_key_service(user_id, friend_id):
     else:
         result['status'] = 404
         result['message'] = 'User does not exist'
-    return GetPublicKeyResponse(**result)
+    return GetPublicKeyResponse(**result).model_dump_json()

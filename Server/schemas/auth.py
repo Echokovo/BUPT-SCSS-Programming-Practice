@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field, ValidationError, model_validator
 import re
 
-class UserRegisterRequest(BaseModel):
+class UserRegister(BaseModel):
     user_id: str = Field(
         ...,
         min_length=1,
@@ -18,12 +18,18 @@ class UserRegisterRequest(BaseModel):
             raise ValidationError('user_id 只能包含字母、数字和下划线')
         return self
 
-class UserLoginRequest(BaseModel):
+class UserRegisterRequest(BaseModel):
+    data: UserRegister
+
+class UserLogin(BaseModel):
     user_id: str
     password: str
     public_key: str
     ip: str
     port: int
+
+class UserLoginRequest(BaseModel):
+    data: UserLogin
 
 class UserRegisterResponse(BaseModel):
     status: int

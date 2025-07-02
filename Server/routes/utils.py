@@ -19,10 +19,10 @@ def init_utils(app: Flask):
 
         result = online_service(
             user_id=user_id,
-            friend_id=online_data.friend_id
+            friend_id=online_data.data.friend_id
         )
-
-        return jsonify(result), result.get("status", 200)
+        result = jsonify(result)
+        return result, result.status_code
 
     @app.route("/public_key", methods=["POST"])
     @jwt_required()
@@ -36,7 +36,7 @@ def init_utils(app: Flask):
 
         result = public_key_service(
             user_id=user_id,
-            friend_id=public_key_data.friend_id
+            friend_id=public_key_data.data.friend_id
         )
-
-        return jsonify(result), result.get("status", 200)
+        result = jsonify(result)
+        return result, result.status_code

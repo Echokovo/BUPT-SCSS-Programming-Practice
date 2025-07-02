@@ -2,11 +2,17 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+class GetState(BaseModel):
+    friend_id: str
+
 class GetStateRequest(BaseModel):
+    data: GetState
+
+class GetPublicKey(BaseModel):
     friend_id: str
 
 class GetPublicKeyRequest(BaseModel):
-    friend_id: str
+    data: GetPublicKey
 
 class GetStateResponse(BaseModel):
     status: int

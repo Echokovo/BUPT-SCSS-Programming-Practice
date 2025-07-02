@@ -40,7 +40,7 @@ def get_contacts_service(user_id):
     else:
         result['status'] = 404
         result['message'] = 'User does not exist'
-    return GetContactsResponse(**result)
+    return GetContactsResponse(**result).model_dump_json()
 
 def add_friend_service(user_id, friend_id):
     result = dict()
@@ -54,7 +54,7 @@ def add_friend_service(user_id, friend_id):
         result['status'] = 404
         result['message'] = 'User does not exist'
 
-    return AddFriendResponse(**result)
+    return AddFriendResponse(**result).model_dump_json()
 
 def delete_friend_service(user_id, friend_id):
     result = dict()
@@ -68,4 +68,4 @@ def delete_friend_service(user_id, friend_id):
         result['status'] = 404
         result['message'] = 'User does not exist'
 
-    return DeleteFriendResponse(**result)
+    return DeleteFriendResponse(**result).model_dump_json()
