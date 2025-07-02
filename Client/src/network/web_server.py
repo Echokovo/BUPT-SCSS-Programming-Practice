@@ -129,6 +129,8 @@ class WebServer:
             req = request.get_json(force=True)
             data = req.get('data', {})
             resp = self.client.server_api.add_contact(data.get('friend_id'))
+            if resp.get("status") == 200:
+            self._load_contacts()
             return self._response(resp.get('status'), resp.get('message'), resp.get('data'))
 
         @self.app.route('/contacts', methods=['DELETE'])
@@ -138,6 +140,8 @@ class WebServer:
             req = request.get_json(force=True)
             data = req.get('data', {})
             resp = self.client.server_api.delete_contact(data.get('friend_id'))
+            if resp.get("status") == 200:
+            self._load_contacts()
             return self._response(resp.get('status'), resp.get('message'), resp.get('data'))
 
         @self.app.route('/history', methods=['POST'])
