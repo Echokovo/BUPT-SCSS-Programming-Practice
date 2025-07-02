@@ -11,7 +11,7 @@ def online_service(user_id, friend_id):
                 result['status'] = 200
                 result['message'] = 'success'
             else:
-                result['status'] = 404
+                result['status'] = 199
                 result['message'] = 'Friend not online'
         else:
             result['status'] = 403
@@ -35,7 +35,7 @@ def public_key_service(user_id, friend_id):
                 result['message'] = 'success'
                 result['data'] = data
             else:
-                result['status'] = 404
+                result['status'] = 199
                 result['message'] = 'Friend not online'
         else:
             result['status'] = 403

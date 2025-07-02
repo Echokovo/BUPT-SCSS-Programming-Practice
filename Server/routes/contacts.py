@@ -30,6 +30,7 @@ def init_contacts(app: Flask):
             return {"error": str(e)}, 400
 
         result = add_friend_service(
+            user_id=user_id,
             friend_id=add_friend_data.friend_id
         )
 
@@ -46,6 +47,7 @@ def init_contacts(app: Flask):
             return {"error": str(e)}, 400
 
         result = delete_friend_service(
+            user_id=user_id,
             friend_id=delete_friend_data.friend_id
         )
 
