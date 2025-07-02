@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pydantic import ValidationError
 
-from Server.schemas.utils import GetStateRequest, GetPublicKeyRequest
-from Server.services.utils import online_service, public_key_service
+from schemas.utils import GetStateRequest, GetPublicKeyRequest
+from services.utils import online_service, public_key_service
 
 def init_utils(app: Flask):
 

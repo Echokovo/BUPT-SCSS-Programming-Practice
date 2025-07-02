@@ -1,7 +1,7 @@
-from Server.schemas.utils import GetStateResponse, GetPublicKeyResponse
-from Server.models.users import User
-from Server.models.online import Online
-from Server.models.contacts import Contacts
+from schemas.utils import GetStateResponse, GetPublicKeyResponse
+from models.users import User
+from models.online import Online
+from models.contacts import Contacts
 
 def online_service(user_id, friend_id):
     result = dict()

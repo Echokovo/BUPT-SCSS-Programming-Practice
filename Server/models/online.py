@@ -1,4 +1,4 @@
-from Server.models.database import db
+from models.database import db
 
 class Online(db.Model):
     __tablename__ = 'online'

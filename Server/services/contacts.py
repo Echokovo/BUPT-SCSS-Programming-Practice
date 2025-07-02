@@ -1,6 +1,6 @@
-from Server.schemas.contacts import GetContactsResponse, AddFriendResponse, DeleteFriendResponse
-from Server.models.contacts import Contacts
-from Server.models.users import User
+from schemas.contacts import GetContactsResponse, AddFriendResponse, DeleteFriendResponse
+from models.contacts import Contacts
+from models.users import User
 
 def get_contacts_service(user_id):
     result = dict()
