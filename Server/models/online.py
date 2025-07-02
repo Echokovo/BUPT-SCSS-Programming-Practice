@@ -20,3 +20,12 @@ class Online(db.Model):
             user.port = port
         db.session.add(user)
         return user
+
+    @classmethod
+    def user_logout(cls, user_id):
+        user = cls.query.filter_by(user_id=user_id).first()
+        if user is None:
+            raise Exception("User not found")
+        user.state = False
+        db.session.add(user)
+        return user

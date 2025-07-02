@@ -14,11 +14,11 @@ class User(db.Model):
         return user
 
     @classmethod
-    def check_user(cls, user_id):
+    def get_user(cls, user_id):
         user = cls.query.filter_by(user_id=user_id).first()
         return user
 
     @classmethod
-    def check_password(cls, user_id, password):
+    def get_password(cls, user_id):
         user = cls.query.filter_by(user_id=user_id).first()
-        return user.password == password
+        return user.password

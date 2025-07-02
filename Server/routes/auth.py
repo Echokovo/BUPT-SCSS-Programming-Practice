@@ -34,7 +34,9 @@ def init_auth(app: Flask):
         result = login_service(
             user_id=login_data.user_id,
             password=login_data.password,
-            public_key=login_data.public_key
+            public_key=login_data.public_key,
+            ip=login_data.ip,
+            port=login_data.port
         )
 
         return jsonify(result), result.get("status", 200)

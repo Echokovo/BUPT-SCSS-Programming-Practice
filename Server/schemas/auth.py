@@ -22,6 +22,8 @@ class UserLoginRequest(BaseModel):
     user_id: str
     password: str
     public_key: str
+    ip: str
+    port: int
 
 class UserRegisterResponse(BaseModel):
     status: int
