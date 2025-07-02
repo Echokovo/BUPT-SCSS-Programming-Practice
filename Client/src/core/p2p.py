@@ -72,7 +72,7 @@ class P2PManager:
                     img = Image.open(steg_img_path)
                     max_chars = (img.width * img.height) // 8
                     # 提取消息（使用图片能容纳的最大长度）
-                    extracted = extract_message(steg_img_path, length=max_chars)
+                    extracted = extract_message(steg_img_path)
                     # 解密提取的消息
                     try:
                         decrypted_content = self.crypto.decrypt_message(extracted)
