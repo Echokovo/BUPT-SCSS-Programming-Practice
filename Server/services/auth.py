@@ -21,20 +21,24 @@ def register_service(user_id, password, email):
 def login_service(user_id, password, public_key, ip, port):
     result = dict()
     if User.get_user(user_id) is not None:
-        if bcrypt.check_password_hash(User.get_password(user_id), password):
-            result['status'] = 200
-            result['message'] = 'success'
-            token = create_access_token(identity=user_id, expires_delta=False)
-            result["data"] = {"token": token}
-            Online.user_login(
-                user_id=user_id,
-                public_key=public_key,
-                ip=ip,
-                port=port
-            )
+        if Online.get_user(user_id) is None:
+            if bcrypt.check_password_hash(User.get_password(user_id), password):
+                result['status'] = 200
+                result['message'] = 'success'
+                token = create_access_token(identity=user_id, expires_delta=False)
+                result["data"] = {"token": token}
+                Online.user_login(
+                    user_id=user_id,
+                    public_key=public_key,
+                    ip=ip,
+                    port=port
+                )
+            else:
+                result['status'] = 401
+                result['message'] = 'wrong password'
         else:
-            result['status'] = 401
-            result['message'] = 'wrong password'
+            result['status'] = 409
+            result['message'] = 'user already login'
     else:
         result['status'] = 404
         result['message'] = 'user does not exist'

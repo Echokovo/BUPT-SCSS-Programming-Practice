@@ -11,6 +11,7 @@ class User(db.Model):
     def create_user(cls, user_id, password, email):
         user = cls(user_id=user_id, password=password, email=email)
         db.session.add(user)
+        db.session.commit()
         return user
 
     @classmethod
@@ -22,3 +23,8 @@ class User(db.Model):
     def get_password(cls, user_id):
         user = cls.query.filter_by(user_id=user_id).first()
         return user.password
+
+    @classmethod
+    def get_email(cls, user_id):
+        user = cls.query.filter_by(user_id=user_id).first()
+        return user.email

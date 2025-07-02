@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 
 class Contact(BaseModel):
@@ -8,8 +8,18 @@ class Contact(BaseModel):
 class AddFriendRequest(BaseModel):
     friend_id: str
 
-class RemoveFriendRequest(BaseModel):
+class DeleteFriendRequest(BaseModel):
     friend_id: str
 
 class GetContactsResponse(BaseModel):
-    contacts: List[Contact]
+    status: int
+    message: str
+    data: Optional[List[Contact]]
+
+class AddFriendResponse(BaseModel):
+    status: int
+    message: str
+
+class DeleteFriendResponse(BaseModel):
+    status: int
+    message: str
