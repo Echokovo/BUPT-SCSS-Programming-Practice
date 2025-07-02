@@ -1,4 +1,4 @@
-from database import db
+from Server.models.database import db
 
 class Contacts(db.Model):
     __tablename__ = 'contacts'
@@ -20,6 +20,10 @@ class Contacts(db.Model):
     def check_contact(cls, user_A, user_B):
         contact = cls.query.filter_by(user_A=user_A, user_B=user_B).first()
         return contact is not None
+
+    @classmethod
+    def check_relationship(cls, user_A, user_B):
+        return cls.check_contact(user_A, user_B) and cls.check_contact(user_B, user_A)
 
     @classmethod
     def delete_contact(cls, user_A, user_B):

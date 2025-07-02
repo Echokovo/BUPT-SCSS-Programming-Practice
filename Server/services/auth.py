@@ -1,8 +1,8 @@
 import flask_bcrypt
 from flask_jwt_extended import create_access_token
-from ..schemas.auth import UserRegisterRequest, UserLoginResponse
-from ..models.users import User
-from ..models.online import Online
+from Server.schemas.auth import UserRegisterRequest, UserLoginResponse
+from Server.models.users import User
+from Server.models.online import Online
 
 bcrypt = flask_bcrypt.Bcrypt()
 

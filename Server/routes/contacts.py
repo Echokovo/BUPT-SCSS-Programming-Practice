@@ -3,8 +3,8 @@ from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pydantic import ValidationError
 
-from ..schemas.contacts import AddFriendRequest, DeleteFriendRequest
-from ..services.contacts import get_contacts_service, add_friend_service, delete_friend_service
+from Server.schemas.contacts import AddFriendRequest, DeleteFriendRequest
+from Server.services.contacts import get_contacts_service, add_friend_service, delete_friend_service
 
 
 def init_contacts(app: Flask):

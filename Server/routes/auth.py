@@ -2,8 +2,8 @@ from flask import Flask, jsonify
 from flask import request
 from pydantic import ValidationError
 
-from ..schemas.auth import UserRegisterRequest, UserLoginRequest
-from ..services.auth import register_service, login_service
+from Server.schemas.auth import UserRegisterRequest, UserLoginRequest
+from Server.services.auth import register_service, login_service
 
 def init_auth(app: Flask):
 

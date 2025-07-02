@@ -1,10 +1,9 @@
 from flask import Flask
 
-from Server.config import init_config
-from Server.routes.auth import init_auth
-from Server.routes.contacts import init_contacts
-from Server.routes.utils import init_utils
-
+from config import init_config
+from routes.auth import init_auth
+from routes.contacts import init_contacts
+from routes.utils import init_utils
 
 
 if __name__ == "__main__":
