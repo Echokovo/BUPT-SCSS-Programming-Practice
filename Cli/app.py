@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from routes.auth import init_auth
 from routes.chat import init_chat
@@ -8,7 +9,7 @@ from routes.utils import init_utils
 
 def create_app():
     app = Flask(__name__)
-
+    CORS(app)
     init_auth(app)
     init_contacts(app)
     init_utils(app)
