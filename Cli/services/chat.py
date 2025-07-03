@@ -1,11 +1,11 @@
 
 
 
-def chat_service():
+def chat_service(friend_id, message):
     pass
 
-def history_service():
+def history_service(friend_id):
     pass
 
-def decipher_service():
+def decipher_service(timestamp):
     pass

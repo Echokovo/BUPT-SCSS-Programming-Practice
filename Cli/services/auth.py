@@ -12,5 +12,5 @@ def login_service(user_id, password):
     response = serverAPI.login(user_id, password, public_key, ip, port)
     return BaseResponse(**response).model_dump(), response['status']
 
-def logout_service(user_id):
-    pass
+def logout_service():
+    return None, 200

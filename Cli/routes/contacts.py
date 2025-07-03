@@ -26,12 +26,12 @@ def init_contacts(app: Flask):
         )
         return result, code
 
-    @app.route("/agree", methods=["POST"])
-    def agree():
-        result, code = agree_service(
-
-        )
-        return result, code
+    # @app.route("/agree", methods=["POST"])
+    # def agree():
+    #     result, code = agree_service(
+    #
+    #     )
+    #     return result, code
 
     @app.route("/contacts", methods=["DELETE"])
     def remove_friend():
