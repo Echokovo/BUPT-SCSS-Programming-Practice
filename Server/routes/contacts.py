@@ -13,11 +13,10 @@ def init_contacts(app: Flask):
     @jwt_required()
     def get_contacts():
         user_id = get_jwt_identity()
-        result = get_contacts_service(
+        result, code = get_contacts_service(
             user_id=user_id
         )
-        result = jsonify(result)
-        return result, result.status_code
+        return result, code
 
     @app.route("/contacts", methods=["POST"])
     @jwt_required()
@@ -29,12 +28,11 @@ def init_contacts(app: Flask):
         except ValidationError as e:
             return {"error": str(e)}, 400
 
-        result = add_friend_service(
+        result, code = add_friend_service(
             user_id=user_id,
             friend_id=add_friend_data.data.friend_id
         )
-        result = jsonify(result)
-        return result, result.status_code
+        return result, code
 
     @app.route("/contacts", methods=["DELETE"])
     @jwt_required()
@@ -46,9 +44,8 @@ def init_contacts(app: Flask):
         except ValidationError as e:
             return {"error": str(e)}, 400
 
-        result = delete_friend_service(
+        result, code = delete_friend_service(
             user_id=user_id,
             friend_id=delete_friend_data.data.friend_id
         )
-        result = jsonify(result)
-        return result, result.status_code
+        return result, code

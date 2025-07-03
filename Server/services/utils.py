@@ -1,4 +1,4 @@
-from schemas.utils import GetStateResponse, GetPublicKeyResponse
+from schemas.utils import BaseResponse
 from models.users import User
 from models.online import Online
 from models.contacts import Contacts
@@ -19,7 +19,7 @@ def online_service(user_id, friend_id):
     else:
         result['status'] = 404
         result['message'] = 'User does not exist'
-    return GetStateResponse(**result).model_dump_json()
+    return BaseResponse(**result).model_dump(), result['status']
 
 def public_key_service(user_id, friend_id):
     result = dict()
@@ -43,4 +43,4 @@ def public_key_service(user_id, friend_id):
     else:
         result['status'] = 404
         result['message'] = 'User does not exist'
-    return GetPublicKeyResponse(**result).model_dump_json()
+    return BaseResponse(**result).model_dump(), result['status']

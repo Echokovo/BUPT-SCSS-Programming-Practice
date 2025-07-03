@@ -1,4 +1,4 @@
-from schemas.contacts import GetContactsResponse, AddFriendResponse, DeleteFriendResponse
+from schemas.contacts import BaseResponse
 from models.contacts import Contacts
 from models.users import User
 
@@ -40,13 +40,15 @@ def get_contacts_service(user_id):
     else:
         result['status'] = 404
         result['message'] = 'User does not exist'
-    return GetContactsResponse(**result).model_dump_json()
+    return BaseResponse(**result).model_dump(), result['status']
 
 def add_friend_service(user_id, friend_id):
     result = dict()
     if User.get_user(user_id) is not None:
         if not Contacts.check_contact(user_id, friend_id):
             Contacts.add_contact(user_id, friend_id)
+            result['status'] = 200
+            result['message'] = 'success'
         else:
             result['status'] = 409
             result['message'] = 'Contact already exists'
@@ -54,13 +56,15 @@ def add_friend_service(user_id, friend_id):
         result['status'] = 404
         result['message'] = 'User does not exist'
 
-    return AddFriendResponse(**result).model_dump_json()
+    return BaseResponse(**result).model_dump(), result['status']
 
 def delete_friend_service(user_id, friend_id):
     result = dict()
     if User.get_user(user_id) is not None:
         if Contacts.check_contact(user_id, friend_id):
             Contacts.delete_contact(user_id, friend_id)
+            result['status'] = 200
+            result['message'] = 'success'
         else:
             result['status'] = 409
             result['message'] = 'Friend does not exist'
@@ -68,4 +72,4 @@ def delete_friend_service(user_id, friend_id):
         result['status'] = 404
         result['message'] = 'User does not exist'
 
-    return DeleteFriendResponse(**result).model_dump_json()
+    return BaseResponse(**result).model_dump(), result['status']

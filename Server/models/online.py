@@ -18,12 +18,14 @@ class Online(db.Model):
             port=port
         )
         db.session.add(user)
+        db.session.commit()
         return user
 
     @classmethod
     def user_logout(cls, user_id):
         user = cls.query.filter_by(user_id=user_id).first()
         db.session.delete(user)
+        db.session.commit()
         return user
 
     @classmethod

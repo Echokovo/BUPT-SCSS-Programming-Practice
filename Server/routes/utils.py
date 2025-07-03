@@ -17,12 +17,11 @@ def init_utils(app: Flask):
         except ValidationError as e:
             return {"error": str(e)}, 400
 
-        result = online_service(
+        result, code = online_service(
             user_id=user_id,
             friend_id=online_data.data.friend_id
         )
-        result = jsonify(result)
-        return result, result.status_code
+        return result, code
 
     @app.route("/public_key", methods=["POST"])
     @jwt_required()
@@ -34,9 +33,8 @@ def init_utils(app: Flask):
         except ValidationError as e:
             return {"error": str(e)}, 400
 
-        result = public_key_service(
+        result, code = public_key_service(
             user_id=user_id,
             friend_id=public_key_data.data.friend_id
         )
-        result = jsonify(result)
-        return result, result.status_code
+        return result, code

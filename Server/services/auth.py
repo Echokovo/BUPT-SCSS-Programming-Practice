@@ -1,6 +1,6 @@
 import flask_bcrypt
 from flask_jwt_extended import create_access_token
-from schemas.auth import UserLoginResponse, UserRegisterResponse
+from schemas.auth import BaseResponse
 from models.users import User
 from models.online import Online
 
@@ -16,7 +16,7 @@ def register_service(user_id, password, email):
     else:
         result['status'] = 409
         result['message'] = 'user already exists'
-    return UserRegisterResponse(**result).model_dump_json()
+    return BaseResponse(**result).model_dump(), result['status']
 
 def login_service(user_id, password, public_key, ip, port):
     result = dict()
@@ -42,4 +42,4 @@ def login_service(user_id, password, public_key, ip, port):
     else:
         result['status'] = 404
         result['message'] = 'user does not exist'
-    return UserLoginResponse(**result).model_dump_json()
+    return BaseResponse(**result).model_dump(), result['status']

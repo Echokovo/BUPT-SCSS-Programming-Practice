@@ -17,15 +17,7 @@ class Contact(BaseModel):
     user_id: str
     flag: bool
 
-class GetContactsResponse(BaseModel):
+class BaseResponse(BaseModel):
     status: int
     message: str
-    data: Optional[List[Contact]]
-
-class AddFriendResponse(BaseModel):
-    status: int
-    message: str
-
-class DeleteFriendResponse(BaseModel):
-    status: int
-    message: str
+    data: Optional[List[Contact]] = None

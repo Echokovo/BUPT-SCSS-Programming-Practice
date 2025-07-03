@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Any
 
 from pydantic import BaseModel, Field, ValidationError, model_validator
 import re
@@ -31,14 +31,10 @@ class UserLogin(BaseModel):
 class UserLoginRequest(BaseModel):
     data: UserLogin
 
-class UserRegisterResponse(BaseModel):
-    status: int
-    message: str
-
 class Token(BaseModel):
     token: str
 
-class UserLoginResponse(BaseModel):
+class BaseResponse(BaseModel):
     status: int
     message: str
-    data: Optional[Token]
+    data: Optional[Token] = None

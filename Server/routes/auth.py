@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from flask import request
 from pydantic import ValidationError
 
@@ -15,13 +15,12 @@ def init_auth(app: Flask):
         except ValidationError as e:
             return {"error": str(e)}, 400
 
-        result = register_service(
+        result, code = register_service(
             user_id=register_data.data.user_id,
             password=register_data.data.password,
             email=register_data.data.email
         )
-        result = jsonify(result)
-        return result, result.status_code
+        return result, code
 
     @app.route("/login", methods=["POST"])
     def login():
@@ -31,12 +30,11 @@ def init_auth(app: Flask):
         except ValidationError as e:
             return {"error": str(e)}, 400
 
-        result = login_service(
+        result, code = login_service(
             user_id=login_data.data.user_id,
             password=login_data.data.password,
             public_key=login_data.data.public_key,
             ip=login_data.data.ip,
             port=login_data.data.port
         )
-        result = jsonify(result)
-        return result, result.status_code
+        return result, code

@@ -14,14 +14,10 @@ class GetPublicKey(BaseModel):
 class GetPublicKeyRequest(BaseModel):
     data: GetPublicKey
 
-class GetStateResponse(BaseModel):
-    status: int
-    message: str
-
 class PublicKey(BaseModel):
     public_key: str
 
-class GetPublicKeyResponse(BaseModel):
+class BaseResponse(BaseModel):
     status: int
     message: str
-    data: Optional[PublicKey]
+    data: Optional[PublicKey] = None
