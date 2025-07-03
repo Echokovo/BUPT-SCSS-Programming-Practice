@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from flask import Flask
 
+TIME_TO_LIVE = timedelta(seconds=60)
 
 def init_config(app: Flask):
     app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:DIGKEHFC@localhost:3306/test3"

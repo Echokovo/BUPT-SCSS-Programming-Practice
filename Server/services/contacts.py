@@ -44,7 +44,7 @@ def get_contacts_service(user_id):
 
 def add_friend_service(user_id, friend_id):
     result = dict()
-    if User.get_user(user_id) is not None:
+    if User.get_user(friend_id) is not None:
         if not Contacts.check_contact(user_id, friend_id):
             Contacts.add_contact(user_id, friend_id)
             result['status'] = 200
