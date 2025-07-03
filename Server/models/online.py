@@ -5,7 +5,7 @@ class Online(db.Model):
     __table_args__ = {"extend_existing": True}
 
     user_id = db.Column(db.String(64), db.ForeignKey('users.user_id'), primary_key=True)
-    public_key = db.Column(db.String(64), nullable=False)
+    public_key = db.Column(db.String(512), nullable=False)
     ip = db.Column(db.String(64), nullable=False)
     port = db.Column(db.Integer, nullable=False)
 
@@ -38,4 +38,4 @@ class Online(db.Model):
         user = cls.query.filter_by(user_id=user_id).first()
         if user is None:
             return None
-        return user.state
+        return True

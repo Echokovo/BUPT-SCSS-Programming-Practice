@@ -152,7 +152,7 @@ def test_login_existing_user(client):
         json={
             "data": {
                 "user_id": "existing_user",
-                "password": "test_password",
+                "password": "password",
                 "email": "existing@example.com"
             }
         }
@@ -164,7 +164,7 @@ def test_login_existing_user(client):
         json={
             "data": {
                 "user_id": "existing_user",
-                "password": "test_password",
+                "password": "password",
                 "public_key": "pub_key_1",
                 "ip": "192.168.1.1",
                 "port": 8080
@@ -187,7 +187,7 @@ def test_login_existing_user(client):
         json={
             "data": {
                 "user_id": "existing_user",
-                "password": "test_password",
+                "password": "password",
                 "public_key": "pub_key_2",  # 尝试使用不同的公钥
                 "ip": "192.168.1.2",
                 "port": 8081

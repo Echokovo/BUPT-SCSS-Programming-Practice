@@ -39,13 +39,3 @@ class Contacts(db.Model):
             (cls.user_A == user_id) | (cls.user_B == user_id)
         ).all()
         return contact
-
-    @classmethod
-    def get_contacts_by_A(cls, user_A):
-        contacts = cls.query.filter_by(user_A=user_A).all()
-        return contacts
-
-    @classmethod
-    def get_contacts_by_B(cls, user_B):
-        contacts = cls.query.filter_by(user_B=user_B).all()
-        return contacts

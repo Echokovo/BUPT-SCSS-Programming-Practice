@@ -18,7 +18,7 @@ def get_contacts_service(user_id):
                     continue
             else:
                 other_user_id = contact.user_A
-                if Contacts.check_contact(other_user_id, user_id):
+                if Contacts.check_contact(user_id, other_user_id):
                     friends.add(other_user_id)
                 else:
                     friend_requests.add(other_user_id)
