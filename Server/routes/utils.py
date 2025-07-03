@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from pydantic import ValidationError
 
 from schemas.utils import GetStateRequest, GetPublicKeyRequest
-from services.utils import online_service, public_key_service
+from services.utils import online_service, public_key_service, heartbeat_service
 
 def init_utils(app: Flask):
 
@@ -36,5 +36,15 @@ def init_utils(app: Flask):
         result, code = public_key_service(
             user_id=user_id,
             friend_id=public_key_data.data.friend_id
+        )
+        return result, code
+
+    @app.route("/heartbeat", methods=["GET"])
+    @jwt_required()
+    def heartbeat():
+        user_id = get_jwt_identity()
+
+        result, code = heartbeat_service(
+            user_id=user_id
         )
         return result, code

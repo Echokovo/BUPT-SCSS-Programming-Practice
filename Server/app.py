@@ -5,7 +5,7 @@ from config import init_config
 from routes.auth import init_auth
 from routes.contacts import init_contacts
 from routes.utils import init_utils
-
+from services.online import CheckUser
 
 
 def create_app():
@@ -19,6 +19,7 @@ def create_app():
     init_auth(app)
     init_contacts(app)
     init_utils(app)
+    check_user = CheckUser(app)
     return app
 
 def create_app_debug():

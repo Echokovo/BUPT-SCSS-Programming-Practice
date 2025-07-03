@@ -44,3 +44,10 @@ def public_key_service(user_id, friend_id):
         result['status'] = 404
         result['message'] = 'User does not exist'
     return BaseResponse(**result).model_dump(), result['status']
+
+def heartbeat_service(user_id):
+    result = dict()
+    Online.update_last_seen(user_id)
+    result['status'] = 200
+    result['message'] = 'success'
+    return BaseResponse(**result).model_dump(), result['status']
