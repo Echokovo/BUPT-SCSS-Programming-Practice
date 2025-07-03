@@ -1,6 +1,7 @@
 from flask import Flask
 
 from routes.auth import init_auth
+from routes.chat import init_chat
 from routes.contacts import init_contacts
 from routes.utils import init_utils
 
@@ -11,6 +12,7 @@ def create_app():
     init_auth(app)
     init_contacts(app)
     init_utils(app)
+    init_chat(app)
     return app
 
 def create_app_debug():
@@ -19,9 +21,10 @@ def create_app_debug():
     init_auth(app)
     init_contacts(app)
     init_utils(app)
+    init_chat(app)
     return app
 
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=False)
+    app.run(host="0.0.0.0", port=8888,debug=False)

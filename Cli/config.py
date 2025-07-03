@@ -5,7 +5,7 @@ CLIENT_CONFIG = {
 }
 
 SERVER_CONFIG = {
-    "host": "0.0.0.0:5000",
+    "host": "localhost:5000",
     "api_base": "",
     "timeout": 10
 }
