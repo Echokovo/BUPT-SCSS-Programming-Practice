@@ -2,8 +2,10 @@ from flask import Flask, jsonify, make_response
 from flask import request
 from pydantic import ValidationError
 
+from config import CLIENT_CONFIG
 from schemas.auth import UserRegisterRequest, UserLoginRequest
-from services.auth import register_service, login_service
+from services.auth import register_service, login_service, logout_service
+
 
 def init_auth(app: Flask):
 
@@ -32,9 +34,15 @@ def init_auth(app: Flask):
 
         result, code = login_service(
             user_id=login_data.data.user_id,
-            password=login_data.data.password,
-            public_key=login_data.data.public_key,
-            ip=login_data.data.ip,
-            port=login_data.data.port
+            password=login_data.data.password
+        )
+        return result, code
+
+    @app.route("/logout", methods=["GET"])
+    def logout():
+        request_data = request.get_json()
+
+        result, code = logout_service(
+
         )
         return result, code

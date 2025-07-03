@@ -1,3 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
+from tinydb import TinyDB
 
-db = SQLAlchemy()
+friends_db = TinyDB('friends.db')
+messages_db = TinyDB('messages.db')

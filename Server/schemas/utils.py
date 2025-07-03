@@ -8,12 +8,6 @@ class GetState(BaseModel):
 class GetStateRequest(BaseModel):
     data: GetState
 
-class GetPublicKey(BaseModel):
-    friend_id: str
-
-class GetPublicKeyRequest(BaseModel):
-    data: GetPublicKey
-
 class PublicKey(BaseModel):
     public_key: str
 

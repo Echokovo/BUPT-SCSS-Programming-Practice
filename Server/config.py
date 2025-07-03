@@ -1,10 +1,14 @@
-from datetime import timedelta
-
 from flask import Flask
 
-TIME_TO_LIVE = timedelta(seconds=60)
+CLIENT_CONFIG = {
+    "listening_port": 50000
+}
+
+SERVER_CONFIG = {
+    "host": "0.0.0.0:5000",
+    "api_base": "",
+    "timeout": 10
+}
 
 def init_config(app: Flask):
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:DIGKEHFC@localhost:3306/test3"
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['JWT_SECRET_KEY'] = 'test'
+    pass
