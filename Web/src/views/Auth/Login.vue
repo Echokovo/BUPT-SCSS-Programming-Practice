@@ -95,11 +95,15 @@ const handleSubmit = async () => {
     if (response.data.status === 200) {
       localStorage.setItem('token', response.data.data.token)
       router.push('/')
-    } else if (response.data.status === 401) {
+    }else if (response.data.status === 400) {
+      error.value = '参数不合法'
+    }else if (response.data.status === 401) {
       error.value = '密码错误'
     } else if (response.data.status === 404) {
       error.value = '用户不存在'
-    } else {
+    }else if (response.data.status === 409) {
+      error.value = '用户已登录'
+    }else {
       error.value = response.data.message || '登录失败'
     }
   } catch (err) {
@@ -109,96 +113,6 @@ const handleSubmit = async () => {
   }
 }
 </script>
-
-
-
-
-<!-- ****************************************************** -->
-<!-- <script setup>
-import {ref, onMounted} from 'vue'
-import {useRouter} from 'vue-router'
-
-const router = useRouter()
-const formData = ref({
-  user_id: '',
-  password: ''
-})
-const error = ref('')
-const loading = ref(false)
-const circles = ref([])
-
-// 生成随机颜色
-const getRandomColor = () => {
-  const letters = '0123456789ABCDEF'
-  let color = '#'
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
-}
-
-// 生成随机大小
-const getRandomSize = () => {
-  return Math.floor(Math.random() * 150) + 100
-}
-
-// 生成随机位置
-const getRandomPosition = () => {
-  return Math.floor(Math.random() * 100)
-}
-
-onMounted(() => {
-  for (let i = 0; i < 10; i++) {
-    circles.value.push({
-      size: getRandomSize(),
-      color: getRandomColor(),
-      left: getRandomPosition(),
-      top: getRandomPosition()
-    })
-  }
-})
-
-// 模拟登录函数
-const mockLogin = async () => {
-  await new Promise(resolve => setTimeout(resolve, 500))
-  return {
-    status: 200,
-    data: {
-      token: 'mock-auth-token-' + Date.now(),
-      user: {
-        email: formData.value.email,
-        role: 'tester'
-      }
-    }
-  }
-}
-
-const handleSubmit = async () => {
-  loading.value = true
-  error.value = ''
-
-  try {
-    // 使用模拟登录代替真实API调用
-    const response = await mockLogin()
-
-    if (response.status === 200) {
-      localStorage.setItem('token', response.data.token)
-      router.push('/')
-    } else {
-      error.value = '模拟登录失败'
-    }
-  } catch (err) {
-    error.value = '模拟登录异常'
-  } finally {
-    loading.value = false
-  }
-}
-</script> -->
-<!-- ***************************************** -->
-
-
-
-
 
 
 

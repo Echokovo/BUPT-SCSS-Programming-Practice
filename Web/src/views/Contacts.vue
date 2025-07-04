@@ -88,10 +88,12 @@ const handleAddContact = async () => {
     if (response.data.status === 200) {
       newContactUsername.value = '';
       fetchContacts();
-    } else if (response.data.status === 404) {
+    } else if (response.data.status === 400){
+      error.value = '参数不合法';
+    }else if (response.data.status === 404) {
       error.value = '该用户不存在';
     } else if (response.data.status === 409) {
-      error.value = '已提交好友';
+      error.value = '好友已添加';
     } else {
       error.value = response.data.message || '添加联系人失败';
     }
@@ -106,6 +108,8 @@ const handleDeleteContact = async (username) => {
     if (response.data.status === 200) {
       fetchContacts();
     } else if (response.data.status === 404) {
+      error.value = '用户不存在';
+    } else if (response.data.status === 409) {
       error.value = '好友不存在';
     } else {
       error.value = response.data.message || '删除联系人失败';
@@ -120,11 +124,7 @@ const handleAgreeFriendRequest = async (username) => {
     const response = await addContact({ friend_id: username });
     if (response.data.status === 200) {
       fetchContacts();
-    } else if (response.data.status === 404) {
-      error.value = '该用户不存在';
-    } else if (response.data.status === 409) {
-      error.value = '已提交好友';
-    } else {
+    }else {
       error.value = response.data.message || '处理好友请求失败';
     }
   } catch (err) {
@@ -132,11 +132,11 @@ const handleAgreeFriendRequest = async (username) => {
   }
 };
 
-const handleRejectFriendRequest = async (username) => {
-  // 这里可以添加拒绝逻辑，如果需要从某个列表中移除请求等
-  // 目前简单模拟移除请求后刷新通讯录
-  fetchContacts();
-};
+// const handleRejectFriendRequest = async (username) => {
+//   // 这里可以添加拒绝逻辑，如果需要从某个列表中移除请求等
+//   // 目前简单模拟移除请求后刷新通讯录
+//   fetchContacts();
+// };
 </script>
 
 <style scoped>

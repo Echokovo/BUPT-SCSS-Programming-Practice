@@ -389,5 +389,5 @@ export const checkFriendOnline = (friendUsername) => {
 // }
 // 图片解密
 export const decryptImage = (data) => {
-  return api.post('/decrypt-image', { data });
+  return api.post('/decipher', { data });
 }
