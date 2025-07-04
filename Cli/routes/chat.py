@@ -16,8 +16,7 @@ def init_chat(app: Flask):
             return {"error": str(e)}, 400
 
         result, code = chat_service(
-            friend_id=chat_data.data.friend_id,
-            message=chat_data.data.message
+                chat_data
         )
         return result, code
 
@@ -30,7 +29,7 @@ def init_chat(app: Flask):
             return {"error": str(e)}, 400
 
         result, code = history_service(
-            friend_id=history_data.data.friend_id,
+            history_data
         )
         return result, code
 
@@ -43,6 +42,6 @@ def init_chat(app: Flask):
             return {"error": str(e)}, 400
 
         result, code = decipher_service(
-            timestamp=decipher_data.data.timestamp
+            decipher_data
         )
         return result, code
