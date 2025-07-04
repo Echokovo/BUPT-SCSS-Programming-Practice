@@ -33,7 +33,6 @@ class ClientAPI:
         self._listener_socket = None
         self._running = False
         self._lock = threading.Lock()
-
         self._message_dbs = {}          # peer_id -> TinyDB table
         self._private_key = None
         self._public_key = None
@@ -61,10 +60,29 @@ class ClientAPI:
         return record['timestamp']
 
     # Public API to extract stego payload for a given peer and timestamp
+    def _extract_from_image(self, image: Image.Image) -> bytes:
+        """
+        按像素顺序读取所有 LSB，拼成字节流返回
+        """
+        pixels = image.load()
+        w, h = image.size
+        bits = []
+        for y in range(h):
+            for x in range(w):
+                r, g, b = pixels[x, y]
+                bits.extend([str(r & 1), str(g & 1), str(b & 1)])
+        data = bytearray()
+        for i in range(0, len(bits) - 7, 8):
+            byte = int(''.join(bits[i:i+8]), 2)
+            data.append(byte)
+        return bytes(data)
+
     def extract_stego_by_timestamp(self, peer_id: str, timestamp: str) -> bytes:
         """
-        Find the record with given timestamp in peer's DB,
-        load its image_path, extract hidden bytes, and return decrypted payload.
+        1) 从 TinyDB 拿到记录里的 image_path
+        2) 打开图片、用 _extract_from_image 读出所有字节
+        3) 前 4 字节解析出实际数据长度 N
+        4) 取出第 5..(4+N) 字节块，解密并返回
         """
         table = self._get_message_table(peer_id)
         Message = Query()
@@ -72,10 +90,10 @@ class ClientAPI:
         if not result or not result[0].get('image_path'):
             raise ValueError("No stego image found for given timestamp")
         path = result[0]['image_path']
-        # Load image and extract
         img = Image.open(path)
-        encrypted = self.extract_from_image(img)
-        # decrypt with session key
+        raw = self._extract_from_image(img)
+        length = int.from_bytes(raw[:4], 'big')
+        encrypted = raw[4:4+length]
         key = self._session_keys.get(peer_id)
         if not key:
             raise ValueError("Session key not established")
@@ -132,23 +150,34 @@ class ClientAPI:
         return unpadder.update(dec) + unpadder.finalize()
 
     def embed_in_image(self, image_path: str, data: bytes, output_path: str):
+        """
+        1) 在 data 前加 4 字节的长度头（big-endian）
+        2) 然后按位嵌入到载体图片的 RGB LSB
+        """
+        header = len(data).to_bytes(4, 'big')
+        full = header + data
         img = Image.open(image_path)
         pixels = img.load()
-        bits = ''.join(f"{byte:08b}" for byte in data)
+        bits = ''.join(f"{byte:08b}" for byte in full)
         w, h = img.size
         idx = 0
         for y in range(h):
             for x in range(w):
-                if idx >= len(bits): break
+                if idx >= len(bits):
+                    break
                 r, g, b = pixels[x, y]
                 r = (r & 0xFE) | int(bits[idx]); idx += 1
                 if idx < len(bits): g = (g & 0xFE) | int(bits[idx]); idx += 1
                 if idx < len(bits): b = (b & 0xFE) | int(bits[idx]); idx += 1
                 pixels[x, y] = (r, g, b)
-            if idx >= len(bits): break
+            if idx >= len(bits):
+                break
         img.save(output_path)
 
-    def extract_from_image(self, image: Image.Image) -> bytes:
+    def _extract_from_image(self, image: Image.Image) -> bytes:
+        """
+        按像素顺序读取所有 LSB，拼成字节流返回
+        """
         pixels = image.load()
         w, h = image.size
         bits = []
@@ -156,11 +185,11 @@ class ClientAPI:
             for x in range(w):
                 r, g, b = pixels[x, y]
                 bits.extend([str(r & 1), str(g & 1), str(b & 1)])
-        bytes_out = bytearray()
+        data = bytearray()
         for i in range(0, len(bits) - 7, 8):
             byte = int(''.join(bits[i:i+8]), 2)
-            bytes_out.append(byte)
-        return bytes(bytes_out)
+            data.append(byte)
+        return bytes(data)
 
     def start(self):
         self._running = True
