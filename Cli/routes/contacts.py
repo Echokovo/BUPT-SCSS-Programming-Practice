@@ -11,6 +11,7 @@ def init_contacts(app: Flask):
     @app.route("/contacts", methods=["GET"])
     def get_contacts():
         result, code = get_contacts_service()
+        print(result)
         return result, code
 
     @app.route("/contacts", methods=["POST"])

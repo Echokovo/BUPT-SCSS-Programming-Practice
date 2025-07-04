@@ -8,10 +8,7 @@ class GetState(BaseModel):
 class GetStateRequest(BaseModel):
     data: GetState
 
-class PublicKey(BaseModel):
-    public_key: str
 
 class BaseResponse(BaseModel):
     status: int
     message: str
-    data: Optional[PublicKey] = None

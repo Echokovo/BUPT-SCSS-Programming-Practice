@@ -10,7 +10,6 @@ from services.auth import register_service, login_service, logout_service
 def init_auth(app: Flask):
 
     @app.route("/register", methods=["POST"])
-    @cross_origin(origin='*')
     def register():
         request_data = request.get_json()
         try:
@@ -26,7 +25,6 @@ def init_auth(app: Flask):
         return result, code
 
     @app.route("/login", methods=["POST"])
-    @cross_origin(origin='*')
     def login():
         request_data = request.get_json()
         try:
@@ -41,7 +39,6 @@ def init_auth(app: Flask):
         return result, code
 
     @app.route("/logout", methods=["GET"])
-    @cross_origin(origin='*')
     def logout():
 
         result, code = logout_service(

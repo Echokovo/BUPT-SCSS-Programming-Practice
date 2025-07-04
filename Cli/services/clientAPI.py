@@ -14,6 +14,7 @@ from io import BytesIO
 from PIL import Image
 
 from config import CLIENT_CONFIG
+from models.messages import messages
 
 
 class ClientAPI:
@@ -42,25 +43,9 @@ class ClientAPI:
         self._session_keys = {}         # peer_id -> AES key
         self._generate_asymmetric_keys()
 
-    def _get_message_table(self, peer_id: str):
-        safe_id = peer_id.replace(':', '_')
-        if peer_id not in self._message_dbs:
-            db = TinyDB(f'messages_{safe_id}.json', indent=2)
-            table = db.table('Messages')
-            self._message_dbs[peer_id] = table
-        return self._message_dbs[peer_id]
 
     def _store_message(self, peer_id: str, sender_id: str, receiver_id: str, message: dict, image_path: str = None):
-        table = self._get_message_table(peer_id)
-        record = {
-            'timestamp': int(time.time()),
-            'sender_id': sender_id,
-            'receiver_id': receiver_id,
-            'message': message,
-            'image_path': image_path
-        }
-        table.insert(record)
-        return record['timestamp']
+        messages.insert_message(message)
 
     # Public API to extract stego payload for a given peer and timestamp
     def _extract_from_image(self, image: Image.Image) -> bytes:
@@ -87,9 +72,7 @@ class ClientAPI:
         3) 前 4 字节解析出实际数据长度 N
         4) 取出第 5..(4+N) 字节块，解密并返回
         """
-        table = self._get_message_table(peer_id)
-        Message = Query()
-        result = table.search(Message.timestamp == timestamp)
+        result = messages.get_message_by_timestamp(timestamp)
         if not result or not result[0].get('image_path'):
             raise ValueError("No stego image found for given timestamp")
         path = result[0]['image_path']

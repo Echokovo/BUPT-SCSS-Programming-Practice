@@ -30,6 +30,7 @@ class ServerAPI:
         if use_token and self.token:
             headers['Authorization'] = f'Bearer {self.token}'
         response = requests.post(url, json={"data": data}, headers=headers, timeout=self.timeout)
+        print(response)
         return response.json()
 
     def _get(self, path, use_token=True):
@@ -81,6 +82,7 @@ class ServerAPI:
             "port": port
         }
         response = self._post("/login", data, use_token=False)
+        print(response)
         if response.get('status') == 200:
             self.user_id = data['user_id']
             self.token = response.get('data', {}).get('token')
@@ -88,6 +90,7 @@ class ServerAPI:
 
     def get_contacts(self):
         response = self._get("/contacts")
+        print(response)
         return response
 
     def add_friend(self, friend_id):
@@ -95,6 +98,7 @@ class ServerAPI:
             "friend_id": friend_id
         }
         response = self._post("/contacts", data)
+        print(response)
         return response
 
     def delete_friend(self, friend_id):
@@ -102,6 +106,7 @@ class ServerAPI:
             "friend_id": friend_id
         }
         response = self._delete("/contacts", data)
+        print(response)
         return response
 
     def get_online_status(self, friend_id):
@@ -109,16 +114,20 @@ class ServerAPI:
             "friend_id": friend_id
         }
         response = self._post("/online", data)
+        print(response)
         return response
 
     def get_public_key(self, friend_id):
         data = {
             "friend_id": friend_id
         }
-        return self._post("/public_key", data)
+        response = self._post("/public_key", data)
+        print(response)
+        return response
 
     def heartbeat(self):
         response = self._get("/heartbeat")
+        print(response)
         return response
 
 serverAPI = ServerAPI()

@@ -1,7 +1,7 @@
 from flask import Flask
 
 CLIENT_CONFIG = {
-    "ip": "10.21.148.196",
+    "host": "10.21.148.196",
     "port": 6000
 }
 

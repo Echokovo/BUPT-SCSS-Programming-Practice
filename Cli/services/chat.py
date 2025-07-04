@@ -13,7 +13,7 @@ def chat_service(chat_data):
 
     # 1. 检查好友是否在线
     status_resp = serverAPI.get_online_status(friend_id)
-    if status_resp.get('status') != 200 or not status_resp.get('data', {}).get('online'):
+    if status_resp.get('status') == 199:
         return {"error": "好友不在线"}, 404
 
     # 2. 获取好友的公钥和连接信息
@@ -74,7 +74,7 @@ def history_service(history_data):
 
     try:
         # 从本地数据库获取历史记录
-        table = client_api._get_message_table(friend_id)
+        table = messages.ge
         messages = []
 
         for record in table.all():

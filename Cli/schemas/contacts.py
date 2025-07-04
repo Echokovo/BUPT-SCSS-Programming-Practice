@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 from pydantic import BaseModel
 
 class AddFriend(BaseModel):
@@ -15,9 +15,9 @@ class DeleteFriendRequest(BaseModel):
 
 class Contact(BaseModel):
     user_id: str
-    flag: bool
+    flag: int
 
 class BaseResponse(BaseModel):
     status: int
     message: str
-    data: Optional[List[Contact]] = None
+    data: Optional[Dict[str,List[Contact]]] = None
