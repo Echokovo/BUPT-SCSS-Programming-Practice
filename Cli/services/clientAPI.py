@@ -10,6 +10,7 @@ from cryptography.hazmat.primitives import padding as sym_padding
 from tinydb import TinyDB, Query
 from datetime import datetime
 import os
+import time
 from io import BytesIO
 from PIL import Image
 
@@ -50,7 +51,7 @@ class ClientAPI:
     def _store_message(self, peer_id: str, sender_id: str, receiver_id: str, message: dict, image_path: str = None):
         table = self._get_message_table(peer_id)
         record = {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': int(time.time()),
             'sender_id': sender_id,
             'receiver_id': receiver_id,
             'message': message,
@@ -174,23 +175,6 @@ class ClientAPI:
                 break
         img.save(output_path)
 
-    def _extract_from_image(self, image: Image.Image) -> bytes:
-        """
-        按像素顺序读取所有 LSB，拼成字节流返回
-        """
-        pixels = image.load()
-        w, h = image.size
-        bits = []
-        for y in range(h):
-            for x in range(w):
-                r, g, b = pixels[x, y]
-                bits.extend([str(r & 1), str(g & 1), str(b & 1)])
-        data = bytearray()
-        for i in range(0, len(bits) - 7, 8):
-            byte = int(''.join(bits[i:i+8]), 2)
-            data.append(byte)
-        return bytes(data)
-
     def start(self):
         self._running = True
         self._listener_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -270,7 +254,7 @@ class ClientAPI:
                             img_bytes=bytes.fromhex(msg['data'])
                             img=Image.open(BytesIO(img_bytes))
                             # Store stego image locally
-                            ts = msg.get('timestamp', datetime.utcnow().isoformat())
+                            ts = msg.get('timestamp', int(time.time()))
                             fname=f"steg_{peer_id.replace(':','_')}_{ts}.png"
                             img.save(fname)
                             # enqueue with timestamp
