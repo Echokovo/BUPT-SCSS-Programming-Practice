@@ -22,7 +22,6 @@ def create_app_debug():
     init_utils(ret)
     init_chat(ret)
     cors = CORS(ret, resources=r"/*")
-    print(cors)
     return ret
 
 app = create_app_debug()

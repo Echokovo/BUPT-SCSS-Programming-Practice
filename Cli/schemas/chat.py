@@ -1,3 +1,5 @@
+from typing import Optional, List, Union
+
 from pydantic import BaseModel
 
 class Message(BaseModel):
@@ -22,3 +24,21 @@ class UserDecipher(BaseModel):
 
 class UserDecipherRequest(BaseModel):
     data: UserDecipher
+
+class FullMessage(BaseModel):
+    timestamp: int
+    sender: str
+    receiver: str
+    message: Message
+
+class History(BaseModel):
+    length: int
+    messages: List[FullMessage]
+
+class PlainText(BaseModel):
+    plain_text: str
+
+class BaseResponse(BaseModel):
+    status: int
+    message: str
+    data: Optional[Union[History, PlainText]] = None

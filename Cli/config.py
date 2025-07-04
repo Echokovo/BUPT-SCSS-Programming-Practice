@@ -1,7 +1,15 @@
-from flask import Flask
+import socket
+def get_local_ip():
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(('8.8.8.8', 80)) # 连接到Google DNS
+            print(f"Local IP: {s.getsockname()[0]}")
+            return s.getsockname()[0] # 获取本地IP
+    except Exception:
+        return socket.gethostbyname(socket.gethostname())
 
 CLIENT_CONFIG = {
-    "host": "10.21.148.196",
+    "host": get_local_ip(),
     "port": 6000
 }
 
@@ -10,6 +18,3 @@ SERVER_CONFIG = {
     "api_base": "",
     "timeout": 10
 }
-
-def init_config(app: Flask):
-    pass

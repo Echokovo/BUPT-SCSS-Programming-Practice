@@ -1,5 +1,6 @@
 import requests
 from config import SERVER_CONFIG
+from models.friends import friends
 
 
 class ServerAPI:
@@ -122,6 +123,12 @@ class ServerAPI:
             "friend_id": friend_id
         }
         response = self._post("/public_key", data)
+        friends.create_friend(
+            friend_id=response['data']['friend_id'],
+            public_key=response['data']['public_key'],
+            ip=response['data']['ip'],
+            port=response['data']['port']
+        )
         print(response)
         return response
 
