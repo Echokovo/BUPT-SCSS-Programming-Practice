@@ -25,18 +25,19 @@ def get_contacts_service(user_id):
         for user in friends:
             data = {
                 'user_id': user,
-                'flag': True
+                'flag': 1
             }
             datas.append(data)
         for user in friend_requests:
             data = {
                 'user_id': user,
-                'flag': False
+                'flag': 0
             }
             datas.append(data)
         result['status'] = 200
         result['message'] = 'success'
-        result['data'] = datas
+        result['data'] = {"contacts": datas}
+        print(datas)
     else:
         result['status'] = 404
         result['message'] = 'User does not exist'

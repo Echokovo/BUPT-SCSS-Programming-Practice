@@ -19,9 +19,7 @@ class Contacts(db.Model):
 
     @classmethod
     def check_contact(cls, user_A, user_B):
-        print(user_A, user_B)
         contact = cls.query.filter_by(user_A=user_A, user_B=user_B).first()
-        print(contact)
         return contact
 
     @classmethod

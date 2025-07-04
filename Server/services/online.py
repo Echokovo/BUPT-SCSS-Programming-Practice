@@ -17,5 +17,5 @@ class CheckUser:
     def __init__(self, app: Flask):
         self.app = app
         self.scheduler = BackgroundScheduler()
-        self.scheduler.add_job(self.check_inactive_user, 'interval', seconds=10)
+        self.scheduler.add_job(self.check_inactive_user, 'interval', seconds=100000)
         self.scheduler.start()

@@ -37,4 +37,6 @@ def init_auth(app: Flask):
             ip=login_data.data.ip,
             port=login_data.data.port
         )
+        print(type(result))
+        print(result)
         return result, code
