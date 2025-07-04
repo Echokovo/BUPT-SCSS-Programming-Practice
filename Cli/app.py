@@ -8,24 +8,24 @@ from routes.utils import init_utils
 
 
 def create_app():
-    app = Flask(__name__)
-    CORS(app)
-    init_auth(app)
-    init_contacts(app)
-    init_utils(app)
-    init_chat(app)
-    return app
+    ret = Flask(__name__)
+    init_auth(ret)
+    init_contacts(ret)
+    init_utils(ret)
+    init_chat(ret)
+    return ret
 
 def create_app_debug():
-    app = Flask(__name__)
+    ret = Flask(__name__)
+    init_auth(ret)
+    init_contacts(ret)
+    init_utils(ret)
+    init_chat(ret)
+    cors = CORS(ret, resources=r"/*")
+    print(cors)
+    return ret
 
-    init_auth(app)
-    init_contacts(app)
-    init_utils(app)
-    init_chat(app)
-    return app
-
-app = create_app()
+app = create_app_debug()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8888,debug=False)
+    app.run(port=50000,debug=True)

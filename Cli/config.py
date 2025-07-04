@@ -1,7 +1,8 @@
 from flask import Flask
 
 CLIENT_CONFIG = {
-    "listening_port": 50000
+    "ip": "10.21.148.196",
+    "port": 6000
 }
 
 SERVER_CONFIG = {

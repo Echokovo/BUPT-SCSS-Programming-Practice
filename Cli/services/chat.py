@@ -1,20 +1,9 @@
-from services.clientAPI import ClientAPI
+from services.clientAPI import ClientAPI, get_client_api
 from services.serverAPI import serverAPI
-from config import SERVER_CONFIG
+from config import CLIENT_CONFIG
 import time
-import os
 from datetime import datetime
 
-_client_api = None
-
-def get_client_api():
-    global _client_api
-    if _client_api is None:
-        # 初始化ClientAPI实例并启动
-        _client_api = ClientAPI(host=SERVER_CONFIG['client_host'],
-                               port=SERVER_CONFIG['client_port'])
-        _client_api.start()
-    return _client_api
 
 def chat_service(chat_data):
     client_api = get_client_api()

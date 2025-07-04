@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask_cors import cross_origin
 from pydantic import ValidationError
 
 from schemas.auth import UserRegisterRequest, UserLoginRequest
@@ -9,6 +10,7 @@ from services.auth import register_service, login_service, logout_service
 def init_auth(app: Flask):
 
     @app.route("/register", methods=["POST"])
+    @cross_origin(origin='*')
     def register():
         request_data = request.get_json()
         try:
@@ -24,6 +26,7 @@ def init_auth(app: Flask):
         return result, code
 
     @app.route("/login", methods=["POST"])
+    @cross_origin(origin='*')
     def login():
         request_data = request.get_json()
         try:
@@ -37,9 +40,9 @@ def init_auth(app: Flask):
         )
         return result, code
 
-    @app.route("/logout", methods=["POST"])
+    @app.route("/logout", methods=["GET"])
+    @cross_origin(origin='*')
     def logout():
-        request_data = request.get_json()
 
         result, code = logout_service(
 
